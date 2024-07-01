@@ -1,0 +1,18 @@
+# Use the official Node.js image
+FROM node:20-alpine
+
+# Create and change to the app directory
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+COPY .env ./.env
+RUN yarn
+
+COPY src/ ./src
+COPY tsconfig*.json ./
+
+# Compile TypeScript files to JavaScript
+RUN yarn tsc
+
+# Run the application
+CMD ["node", "dist/bin/consumer.js"]
